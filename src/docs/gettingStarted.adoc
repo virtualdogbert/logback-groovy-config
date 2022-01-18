@@ -1,0 +1,11 @@
+== Getting Started
+
+1. Add the following dependency:
+.build.gradle
++
+----
+compile 'io.github.virtualdogbert:logback-groovy-config:1.0-RC1'
+----
+Add more getting started docs here
+
+

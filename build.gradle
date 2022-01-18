@@ -1,0 +1,204 @@
+plugins {
+    id 'groovy'
+    id 'java-library'
+    id 'maven-publish'
+    id 'signing'
+    id "io.github.gradle-nexus.publish-plugin" version "1.1.0"
+    id "org.asciidoctor.jvm.convert" version "3.3.2"
+}
+
+repositories {
+    mavenCentral()
+}
+
+group = "io.github.virtualdogbert"
+version = "1.0-RC1"
+description = "This provides the Groovy DSL for Logback, as a separate module."
+
+dependencies {
+    // Use the latest Groovy version for building this library
+    implementation 'org.codehaus.groovy:groovy-all:3.0.9'
+    compileOnly 'ch.qos.logback:logback-core:1.2.10'
+    compileOnly 'ch.qos.logback:logback-classic:1.2.10'
+
+    // This dependency is used internally, and not exposed to consumers on their own compile classpath.
+    implementation 'com.google.guava:guava:30.1.1-jre'
+
+    // Use the awesome Spock testing and specification framework even with Java
+    testImplementation 'org.spockframework:spock-core:2.0-groovy-3.0'
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation 'ch.qos.logback:logback-core:1.2.10'
+    testImplementation 'ch.qos.logback:logback-classic:1.2.10'
+
+    // This dependency is exported to consumers, that is to say found on their compile classpath.
+    api 'org.apache.commons:commons-math3:3.6.1'
+}
+
+tasks.named('test') {
+    // Use JUnit Platform for unit tests.
+    useJUnitPlatform()
+}
+
+
+task sourceJar(type: Jar) {
+    from sourceSets.main.allSource
+    classifier "sources"
+}
+
+
+
+ext {
+    theTitle = 'logback groovy config'
+    titleForDocumentation = archivesBaseName + ' ' + version
+    packageTitle = group
+    description = description
+}
+
+task jarDoc(type: Jar, dependsOn: [javadoc, groovydoc]) {
+    archiveClassifier.set('javadoc')
+    from docsDir
+}
+
+javadoc {
+    options.overview('overview.html')
+    options.showAll()
+    options.encoding('UTF-8')
+    options.setUse(true)
+    options.author(true)
+    options.version(true)
+    options.windowTitle(titleForDocumentation)
+    options.docTitle(titleForDocumentation)
+    doFirst {
+        javadoc.title = titleForDocumentation
+        javadoc.options.docTitle = javadoc.title
+    }
+}
+
+if (JavaVersion.current().isJava8Compatible()) {
+    tasks.withType(Javadoc) {
+        // disable the crazy super-strict doclint tool in Java 8
+        //noinspection SpellCheckingInspection
+        options.addStringOption('Xdoclint:none', '-quiet')
+    }
+}
+
+groovydoc {
+    dependsOn(classes)
+    includePrivate = true
+    use = true
+    windowTitle = packageTitle
+    docTitle = packageTitle
+    header = packageTitle
+    include 'com/virtualdogbert/**'
+    overviewText = project.resources.text.fromFile('overview.html')
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+
+            groupId = project.group
+            artifactId = 'logback-groovy-config'
+            version = project.version
+
+            from components.java
+
+            artifact(sourceJar) {
+                classifier "sources"
+            }
+
+            artifact jarDoc {
+                classifier = 'javadoc'
+            }
+
+            pom {
+                name = 'Logback Groovy Config'
+                description = 'This library provides the Groovy DSL for configuration Log back and adds some security to the DSL '
+                url = 'https://github.com/virtualdogbert/logback-groovy-config'
+                licenses {
+                    license {
+                        name = 'The Apache License, Version 2.0'
+                        url = 'https://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'virtualdogbert'
+                        name = 'Tucker J. Pelletier'
+                        email = 'virtualdogbert@gmail.com'
+                    }
+                }
+                scm {
+                    connection = 'scm:git:git://github.com/virtualdogbert/logback-groovy-config.git'
+                    developerConnection = 'scm:git:ssh://github.com:virtualdogbert/logback-groovy-config.git'
+                    url = 'https://github.com/virtualdogbert/logback-groovy-config/tree/master'
+                }
+            }
+        }
+
+
+    }
+}
+
+task jarSrc(type: Jar, dependsOn: classes) {
+    archiveClassifier.set('sources')
+    from sourceSets.main.allSource
+}
+
+artifacts {
+    archives(jarSrc)
+    archives(jarDoc)
+}
+
+def asciidoctorAttributes = [
+        copyright           : 'Apache License, Version 2.0',
+        docinfo1            : 'true',
+        doctype             : 'book',
+        encoding            : 'utf-8',
+        icons               : 'font',
+        id                  : project.name + ':' + project.version,
+        idprefix            : '',
+        idseparator         : '-',
+        lang                : 'en',
+        linkattrs           : true,
+        numbered            : '',
+        producer            : 'Asciidoctor',
+        revnumber           : project.version,
+        setanchors          : true,
+        'source-highlighter': 'prettify',
+        toc                 : 'left',
+        toc2                : '',
+        toclevels           : '2'
+]
+
+asciidoctor {
+  sourceDir  file('src/docs')
+  outputDir  file('build/docs')
+    baseDirFollowsSourceDir()
+
+    asciidoctorj {
+        attributes = asciidoctorAttributes
+    }
+}
+
+afterEvaluate {
+    signing {
+        //required { gradle.taskGraph.hasTask("publish") || gradle.taskGraph.hasTask("publishMavenPublicationToMavenLocal") }
+        sign publishing.publications.maven
+    }
+}
+
+nexusPublishing {
+    repositories {
+        sonatype {
+            def ossUser = System.getenv("SONATYPE_USERNAME") ?: project.hasProperty("sonatypeOssUsername") ? project.sonatypeOssUsername : ''
+            def ossPass = System.getenv("SONATYPE_PASSWORD") ?: project.hasProperty("sonatypeOssPassword") ? project.sonatypeOssPassword : ''
+            def ossStagingProfileId = System.getenv("SONATYPE_STAGING_PROFILE_ID") ?: project.hasProperty("sonatypeOssStagingProfileId") ? project.sonatypeOssStagingProfileId : ''
+            nexusUrl = uri("https://s01.oss.sonatype.org/service/local/")
+            snapshotRepositoryUrl = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
+            username = ossUser
+            password = ossPass
+            stagingProfileId = ossStagingProfileId
+        }
+    }
+}

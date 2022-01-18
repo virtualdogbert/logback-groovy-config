@@ -1,0 +1,4 @@
+== Introduction
+
+This Library brings back the Groovy DSL for configuring Logback. There was some concern about security of the DSL so this library adds
+security via the SecureASTCustomizer.
