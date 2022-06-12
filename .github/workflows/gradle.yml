@@ -28,3 +28,5 @@ jobs:
           -PlibrariesMavenUrl=${{ secrets.LIBRARIES_MAVEN_URL }}
           -PuserName=${{ secrets.LIBRARIES_USERNAME }}
           -Ptoken=${{ secrets.LIBRARIES_PUSH_TOKEN }}
+          -PsigningPassword=${{ secrets.SIGNING_KEY_PASSWORD }}
+          -PsigningKey=${{ secrets.SIGNING_KEY }}

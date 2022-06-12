@@ -195,6 +195,7 @@ asciidoctor {
 afterEvaluate {
     signing {
         //required { gradle.taskGraph.hasTask("publish") || gradle.taskGraph.hasTask("publishMavenPublicationToMavenLocal") }
+        useInMemoryPgpKeys(signingKey, signingPassword)
         sign publishing.publications.maven
     }
 }
