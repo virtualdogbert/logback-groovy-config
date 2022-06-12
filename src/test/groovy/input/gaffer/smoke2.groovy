@@ -1,4 +1,10 @@
-package input.gaffer
+
+
+
+import ch.qos.logback.classic.Level
+import ch.qos.logback.classic.PatternLayout
+import ch.qos.logback.core.ConsoleAppender
+import ch.qos.logback.core.encoder.LayoutWrappingEncoder
 /**
  * Logback: the reliable, generic, fast and flexible logging framework.
  * Copyright (C) 1999-2015, QOS.ch. All rights reserved.
@@ -12,6 +18,14 @@ package input.gaffer
  * under the terms of the GNU Lesser General Public License version 2.1
  * as published by the Free Software Foundation.
  */
-scan ()
-metaClass.xxx = { println "xxxxx"}
-xxx()
+def testEnv = System.getenv('LANGUAGE')
+def testProperty = System.getProperty('path.separator')
+
+appender("C", ConsoleAppender) {
+  encoder(LayoutWrappingEncoder) {
+    layout(PatternLayout) {
+      pattern = "%m%n"
+    }
+  }
+}
+root Level.WARN, ["C"]

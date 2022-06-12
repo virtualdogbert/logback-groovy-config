@@ -1,5 +1,6 @@
 package ch.qos.logback.classic.gaffer
 
+import ch.qos.logback.core.boolex.Matcher
 import groovy.transform.CompileStatic
 import org.codehaus.groovy.ast.expr.ConstantExpression
 import org.codehaus.groovy.ast.expr.Expression
@@ -44,10 +45,9 @@ class ScriptExpressionChecker implements SecureASTCustomizer.ExpressionChecker {
             'toList', 'toLong', 'toLowerCase',
             'toShort', 'toString', 'toUpperCase',
             'tr', 'trim', 'unexpand',
-            'unexpandLine', 'valueOf',
+            'unexpandLine', 'valueOf', 'start',
 
-            //Not sure why these seem to be attached to String, but it might be the way I'm testing.
-            'conversionRule', 'appender', 'encoder', 'forName','isDevelopmentMode', 'logger', 'root'
+
     ]
     private static final List<String> AllowedObjectMethods = [
             'clone', 'equals', 'toString',
@@ -59,7 +59,19 @@ class ScriptExpressionChecker implements SecureASTCustomizer.ExpressionChecker {
             'getAt', 'grep', 'groupBy',
             'inject', 'is', 'join',
             'putAt', 'size', 'sum',
-            'with'
+            'with',
+
+
+            'conversionRule', 'appender', 'encoder',
+            'forName', 'isDevelopmentMode', 'logger',
+            'root', 'layout', 'appenderRef',
+            'putProperty', 'getProperty', 'filter',
+            'evaluator'
+    ]
+
+
+    private static final List<String> AllowedMatcherMethods = [
+            'start'
     ]
 
     @Override
@@ -75,13 +87,20 @@ class ScriptExpressionChecker implements SecureASTCustomizer.ExpressionChecker {
             MethodCallExpression methodCall = (MethodCallExpression) expression
             ConstantExpression methodExpression = (ConstantExpression) methodCall?.method
 
-            if (methodExpression && methodExpression?.type?.name == String.class.name &&
+            if (methodExpression && methodCall.objectExpression.type.name == Matcher.class.name &&
+                !AllowedMatcherMethods.contains(methodExpression?.value)) {
+
+                return false
+            }
+
+
+            if (methodExpression && methodCall.objectExpression.type.name == String.class.name &&
                 !AllowedStringMethods.contains(methodExpression?.value)) {
 
                 return false
             }
 
-            if (methodExpression && methodExpression?.type?.name == Object.class.name &&
+            if (methodExpression && methodCall.objectExpression.type.name == Object.class.name &&
                 !AllowedObjectMethods.contains(methodExpression?.value)) {
                 return false
             }

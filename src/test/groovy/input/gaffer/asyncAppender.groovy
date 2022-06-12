@@ -1,4 +1,4 @@
-package input.gaffer
+//package input.gaffer
 /**
  * Logback: the reliable, generic, fast and flexible logging framework.
  * Copyright (C) 1999-2015, QOS.ch. All rights reserved.

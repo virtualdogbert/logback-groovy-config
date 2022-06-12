@@ -1,4 +1,3 @@
-package input.gaffer
 /**
  * Logback: the reliable, generic, fast and flexible logging framework.
  * Copyright (C) 1999-2015, QOS.ch. All rights reserved.
@@ -15,8 +14,6 @@ package input.gaffer
 import ch.qos.logback.classic.PatternLayout
 import ch.qos.logback.core.testUtil.SampleConverter
 import ch.qos.logback.core.testUtil.StringListAppender
-
-import static ch.qos.logback.classic.Level.DEBUG
 
 conversionRule("sample", SampleConverter)
 appender("LIST", StringListAppender) {

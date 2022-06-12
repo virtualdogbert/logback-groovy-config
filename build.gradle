@@ -18,6 +18,7 @@ description = "This provides the Groovy DSL for Logback, as a separate module."
 dependencies {
     // Use the latest Groovy version for building this library
     implementation 'org.codehaus.groovy:groovy-all:3.0.9'
+    implementation 'org.codehaus.janino:janino:3.0.6'
     compileOnly 'ch.qos.logback:logback-core:1.2.10'
     compileOnly 'ch.qos.logback:logback-classic:1.2.10'
 

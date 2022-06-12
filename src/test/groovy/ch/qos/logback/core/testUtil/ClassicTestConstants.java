@@ -21,7 +21,7 @@ public class ClassicTestConstants {
     final static public String NAKED_MAIN_REGEX = "([mM]ain|pool-\\d-)([Tt]hread)?(-\\d{1,3})?";
 
     final static public String MAIN_REGEX = "\\[" + NAKED_MAIN_REGEX + "\\]";
-    final static public String INPUT_PREFIX = "src/test/input/";
+    final static public String INPUT_PREFIX = "src/test/groovy/input/";
     final static public String JORAN_INPUT_PREFIX = INPUT_PREFIX + "joran/";
     final static public String ISSUES_PREFIX = ClassicTestConstants.JORAN_INPUT_PREFIX + "issues/";
     final static public String GAFFER_INPUT_PREFIX = INPUT_PREFIX + "gaffer/";

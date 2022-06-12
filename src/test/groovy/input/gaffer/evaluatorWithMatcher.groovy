@@ -1,4 +1,3 @@
-package input.gaffer
 /**
  * Logback: the reliable, generic, fast and flexible logging framework.
  * Copyright (C) 1999-2015, QOS.ch. All rights reserved.
@@ -18,16 +17,14 @@ package input.gaffer
 // please see http://logback.qos.ch/manual/groovy.html
 //
 
+
 import ch.qos.logback.classic.boolex.JaninoEventEvaluator
 import ch.qos.logback.classic.encoder.PatternLayoutEncoder
 import ch.qos.logback.core.ConsoleAppender
+import ch.qos.logback.core.boolex.Matcher
 import ch.qos.logback.core.filter.EvaluatorFilter
 
-import static ch.qos.logback.classic.Level.DEBUG
-import static ch.qos.logback.core.spi.FilterReply.DENY
-import static ch.qos.logback.core.spi.FilterReply.NEUTRAL
-import ch.qos.logback.core.boolex.Matcher
-import ch.qos.logback.core.spi.LifeCycle
+import static ch.qos.logback.core.spi.FilterReply.*
 
 appender("STDOUT", ConsoleAppender) {
   filter(EvaluatorFilter) {
@@ -35,8 +32,8 @@ appender("STDOUT", ConsoleAppender) {
       Matcher aMatcher = new Matcher()
       aMatcher.name = "odd"
       aMatcher.regex = "statement [13579]"
-      if(aMatcher instanceof LifeCycle)
-        aMatcher.start();
+//      if(aMatcher instanceof LifeCycle)
+//        aMatcher.start();
       aMatcher.start();
       matcher = aMatcher
       expression = "odd.matches(formattedMessage)"

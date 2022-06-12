@@ -1,4 +1,3 @@
-package input.gaffer
 /**
  * Logback: the reliable, generic, fast and flexible logging framework.
  * Copyright (C) 1999-2015, QOS.ch. All rights reserved.
@@ -19,8 +18,6 @@ package input.gaffer
 //
 
 import ch.qos.logback.core.ConsoleAppender
-
-import static ch.qos.logback.classic.Level.DEBUG
 
 import ch.qos.logback.core.encoder.LayoutWrappingEncoder
 import ch.qos.logback.classic.PatternLayout

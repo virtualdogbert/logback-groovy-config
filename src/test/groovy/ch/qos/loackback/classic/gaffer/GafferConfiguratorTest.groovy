@@ -31,7 +31,6 @@ import org.junit.Test
 
 import static junit.framework.Assert.*
 import static org.junit.Assert.assertTrue
-
 /**
  * @author Ceki G&uuml;c&uuml;
  */
@@ -65,10 +64,19 @@ class GafferConfiguratorTest {
     }
 
     @Test
-    void onTheFly() {
-        File file = new File(ClassicTestConstants.GAFFER_INPUT_PREFIX + "onTheFly.groovy")
+    void smoke2() {
+        File file = new File(ClassicTestConstants.GAFFER_INPUT_PREFIX + "smoke2.groovy")
         String dslText = file.text
+        context.putProperty('path.separator', '/')
         configurator.run dslText
+        Logger root = context.getLogger(Logger.ROOT_LOGGER_NAME);
+        assertEquals(Level.WARN, root.level)
+        assertNotNull(root.getAppender("C"))
+        ConsoleAppender ca = root.getAppender("C")
+        assertNotNull(ca.encoder)
+        assertNotNull(ca.encoder.layout)
+        PatternLayout layout = ca.encoder.layout
+        assertEquals("%m%n", layout.pattern)
     }
 
     @Test
