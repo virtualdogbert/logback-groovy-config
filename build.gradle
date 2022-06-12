@@ -49,7 +49,7 @@ task sourceJar(type: Jar) {
 
 
 ext {
-    theTitle = 'logback groovy config'
+    theTitle = 'Logback Groovy Config'
     titleForDocumentation = archivesBaseName + ' ' + version
     packageTitle = group
     description = description
@@ -91,7 +91,6 @@ groovydoc {
     docTitle = packageTitle
     header = packageTitle
     include 'com/virtualdogbert/**'
-    overviewText = project.resources.text.fromFile('overview.html')
 }
 
 publishing {
@@ -150,6 +149,7 @@ artifacts {
     archives(jarSrc)
     archives(jarDoc)
 }
+
 
 def asciidoctorAttributes = [
         copyright           : 'Apache License, Version 2.0',

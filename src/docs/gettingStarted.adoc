@@ -1,11 +1,18 @@
 == Getting Started
 
-1. Add the following dependency:
-.build.gradle
-+
-----
+1. Add the following dependency to .build.gradle:
+
+```groovy
 compile 'io.github.virtualdogbert:logback-groovy-config:1.0-RC1'
-----
-Add more getting started docs here
+```
 
+Eventually the parent Logback Library should add hooks allowing to you specify the `logback.groovy` file just as you have before. Prior to
+that you can use the following to run the DSL on a logback groovy config file:
 
+```groovy
+import ch.qos.logback.classic.LogbackDSLInitializer
+LogbackDSLInitializer.init((LoggerContext) LoggerFactory.getILoggerFactory(),  getClass().getClassLoader().getResourceAsStream("logback-config.groovy"))
+```
+
+Note the file can be called anything but `logback.groovy` and in this case `logback-config.groovy` was chosen. This file needs to be in a
+resource directory to be picked up.

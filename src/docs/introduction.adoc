@@ -2,3 +2,22 @@
 
 This Library brings back the Groovy DSL for configuring Logback. There was some concern about security of the DSL so this library adds
 security via the SecureASTCustomizer.
+
+Note while this is meant to be more secure than the initial implementation, and while I will give some opinions on how you might be use this
+library is a more secure manner, your application security is up to you. You use this library at your own risk. If you find any flaws/security
+risks you can log them on the GitHub Issues Page:
+https://github.com/virtualdogbert/logback-groovy-config/issues
+
+Pull requests are welcome provided you provide any tests demonstrating/testing any new features, and documentation to go along with it.
+The app does have default security configuration, which can be overridden see the section:
+
+<<overridingConfig#,Overriding Default Config>>
+
+Pull request changing the default configuration will not be accepted unless they fix a security flaw, or there is a really good reason
+provided, that makes sense for all users of the library.
+
+You can find the default configuration here:
+
+<<defaultConfig#, Default Config>>
+
+These defaults limit what can be done in the DSL, in terms of imports and method calls.
