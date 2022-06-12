@@ -12,7 +12,7 @@ repositories {
 }
 
 group = "io.github.virtualdogbert"
-version = "1.0-RC1"
+version = libVersion
 description = "This provides the Groovy DSL for Logback, as a separate module."
 
 dependencies {
@@ -134,6 +134,16 @@ publishing {
                     url = 'https://github.com/virtualdogbert/logback-groovy-config/tree/master'
                 }
             }
+
+            repositories {
+                  maven {
+                      url = librariesMavenUrl
+                      credentials {
+                          username = project.findProperty("gpr.user") ?: userName
+                          password = project.findProperty("gpr.key") ?: token
+                      }
+                  }
+              }
         }
 
 
