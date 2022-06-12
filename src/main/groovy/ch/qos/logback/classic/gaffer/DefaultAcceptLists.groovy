@@ -6,10 +6,16 @@ import groovy.transform.CompileStatic
 
 import static org.codehaus.groovy.syntax.Types.*
 
+/**
+ * Default Accept Lists for the AST Customizer used to limit what can be done in the Groovy DSL for Logback.
+ */
 @CompileStatic
-class ImportList {
+class DefaultAcceptLists {
 
-    static final List tokensWhitelist = [
+    /**
+     * This Limits the acceptable tokens that can bs use in the Groovy DSL file. Like +-/% etc.
+     */
+    static final List tokensAcceptList = [
             DIVIDE, PLUS, MINUS,
             MULTIPLY, MOD, POWER,
             PLUS_PLUS, MINUS_MINUS,
@@ -19,7 +25,10 @@ class ImportList {
             EQUALS, COMPARE_NOT_EQUAL, COMPARE_EQUAL, KEYWORD_INSTANCEOF
     ]
 
-    static final List constantTypesClassesWhiteList = [
+    /**
+     * This limits the acceptable constant types that can be used in the DSL
+     */
+    static final List constantTypesClassesAcceptList = [
             Object,
             Integer,
             Float,
@@ -36,7 +45,10 @@ class ImportList {
             LoggerContext
     ]
 
-    static final List<String> staticImportsWhiteList = [
+    /**
+     * This limits the acceptable static imports for the Groovy DSL
+     */
+    static final List<String> staticImportsAcceptList = [
             'java.nio.charset.Charset.forName',
             'java.lang.Object.conversionRule',
             'java.lang.Object.appender',
@@ -64,18 +76,20 @@ class ImportList {
             'java.lang.Object.getProperty',
             'java.lang.System',
             'java.lang.System.getenv',
-            'java.lang.System.getProperty',
+            'java.lang.System.getProperty'
     ]
 
-    static final List<String> importsWhiteList = [
+    /**
+     * This limits the acceptable imports for the Groovy DSL.
+     */
+    static final List<String> importsAcceptList = [
             'ch.qos.logback.core.testUtil.StringListAppender',
             'java.lang.Object',
-            'org.springframework.beans.factory.annotation.Autowired', //test removing once this is in a real enviroment because I think this is only required because of the test in grails picking up some context that requires this.
+            'org.springframework.beans.factory.annotation.Autowired', //Grails requires this for some reason, but you can not autowire any service because those classes are not on the import list.
             'java.nio.charset.Charset.forName',
             'com.logentries.logback.LogentriesAppender',
             'grails.util.BuildSettings',
             'grails.util.Environment',
-            'io.micronaut.context.env.Environment',
             'org.slf4j.MDC',
             'org.springframework.boot.logging.logback.ColorConverter',
             'org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter',
@@ -87,6 +101,7 @@ class ImportList {
             'ch.qos.logback.classic.encoder.PatternLayoutEncoder',
             'ch.qos.logback.classic.Level',
             'ch.qos.logback.core.ConsoleAppender',
+            'ch.qos.logback.core.FileAppender',
             'ch.qos.logback.classic.PatternLayout',
             'ch.qos.logback.core.encoder.LayoutWrappingEncoder',
             'ch.qos.logback.classic.LoggerContext',
@@ -95,5 +110,18 @@ class ImportList {
             'java.lang.System',
             'java.lang.System.getenv',
             'java.lang.System.getProperty',
+    ]
+
+    /**
+     * This limits the acceptable star imports for the Groovy DSL.
+     */
+    static final List<String> starImportsAcceptList = []
+
+    /**
+     * This limits the acceptable star static imports for the Groovy DSL.
+     */
+    static final List<String> staticStarImportsAcceptList = [
+            'grails.util.Environment',
+            'io.micronaut.context.env.Environment'
     ]
 }

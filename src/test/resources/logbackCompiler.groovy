@@ -1,70 +1,11 @@
-import ch.qos.logback.classic.LoggerContext
 
-ch.qos.logback.core.boolex.Matcher
 
-import static org.codehaus.groovy.syntax.Types.*
-
-tokensWhiteList = [
-        DIVIDE, PLUS, MINUS,
-        MULTIPLY, MOD, POWER,
-        PLUS_PLUS, MINUS_MINUS,
-        PLUS_EQUAL, LOGICAL_AND, COMPARE_EQUAL,
-        COMPARE_NOT_EQUAL, COMPARE_LESS_THAN, COMPARE_LESS_THAN_EQUAL,
-        LOGICAL_OR, NOT, COMPARE_GREATER_THAN, COMPARE_GREATER_THAN_EQUAL,
-        EQUALS, COMPARE_NOT_EQUAL, COMPARE_EQUAL, KEYWORD_INSTANCEOF
-]
-
-constantTypesClassesWhiteList = [
-        Object,
-        Integer,
-        Float,
-        Long,
-        Double,
-        BigDecimal,
-        String,
-        Integer.TYPE,
-        Long.TYPE,
-        Float.TYPE,
-        Double.TYPE,
-        Boolean.TYPE,
-        Matcher,
-        LoggerContext
-]
-
-staticImportsWhiteList = [
-        'java.nio.charset.Charset.forName',
-        'java.lang.Object.conversionRule',
-        'java.lang.Object.appender',
-        'java.lang.Object.layout',
-        'java.lang.Object.appenderRef',
-        'java.lang.Object.encoder',
-        'java.lang.Object.filter',
-        'java.lang.Object.evaluator',
-        'java.lang.Object.logger',
-        'java.lang.Object.root',
-        'ch.qos.logback.classic.Level',
-        'ch.qos.logback.classic.Level.OFF',
-        'ch.qos.logback.classic.Level.ERROR',
-        'ch.qos.logback.classic.Level.WARN',
-        'ch.qos.logback.classic.Level.INFO',
-        'ch.qos.logback.classic.Level.DEBUG',
-        'ch.qos.logback.classic.Level.TRACE',
-        'ch.qos.logback.classic.Level.ALL',
-        'ch.qos.logback.core.spi.FilterReply',
-        'ch.qos.logback.core.spi.FilterReply.DENY',
-        'ch.qos.logback.core.spi.FilterReply.NEUTRAL',
-        'ch.qos.logback.core.spi.FilterReply.ACCEPT',
-        'ch.qos.logback.core.boolex.Matcher.start',
-        'java.lang.Object.putProperty',
-        'java.lang.Object.getProperty'
-]
-
-importsWhiteList = [
+importsAcceptList = [
         'ch.qos.logback.core.testUtil.SampleConverter',
 
         'ch.qos.logback.core.testUtil.StringListAppender',
         'java.lang.Object',
-        'org.springframework.beans.factory.annotation.Autowired', //test removing once this is in a real enviroment because I think this is only required because of the test in grails picking up some context that requires this.
+        'org.springframework.beans.factory.annotation.Autowired',
         'java.nio.charset.Charset.forName',
         'com.logentries.logback.LogentriesAppender',
         'grails.util.BuildSettings',
@@ -503,5 +444,8 @@ importsWhiteList = [
         'ch.qos.logback.classic.boolex.GEventEvaluator',
         'ch.qos.logback.classic.boolex.IEvaluator',
         'ch.qos.logback.classic.filter.ThresholdFilter',
-        'ch.qos.logback.classic.filter.LevelFilter'
+        'ch.qos.logback.classic.filter.LevelFilter',
+        'java.lang.System',
+        'java.lang.System.getenv',
+        'java.lang.System.getProperty'
 ]

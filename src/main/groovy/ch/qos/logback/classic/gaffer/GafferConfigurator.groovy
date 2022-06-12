@@ -11,7 +11,7 @@ import org.codehaus.groovy.control.CompilerConfiguration
 import org.codehaus.groovy.control.customizers.ImportCustomizer
 import org.codehaus.groovy.control.customizers.SecureASTCustomizer
 
-import static ch.qos.logback.classic.gaffer.ImportList.*
+import static DefaultAcceptLists.*
 
 /**
  * Logback: the reliable, generic, fast and flexible logging framework.
@@ -54,6 +54,8 @@ class GafferConfigurator {
         ConfigObject config
         List<String> importsList
         List<String> staticImportsList
+        List<String> starImportsList
+        List<String> staticStarImportsList
         List<String> tokens
         List<String> constantTypesClasses
 
@@ -65,10 +67,12 @@ class GafferConfigurator {
         }
 
 
-            importsList = config?.importsWhiteList ?: importsWhiteList
-            staticImportsList = config?.staticImportsWhiteList ?: staticImportsWhiteList
-            tokens  = config?.tokensWhitelist ?: tokensWhitelist
-            constantTypesClasses  =  constantTypesClassesWhiteList
+        importsList = config?.importsAcceptList ?: importsAcceptList
+        staticImportsList = config?.staticImportsAcceptList ?: staticImportsAcceptList
+        starImportsList = config?.starImportsAcceptList ?: starImportsAcceptList
+        staticStarImportsList = config?.staticStarImportsAcceptList ?: staticStarImportsAcceptList
+        tokens = config?.tokensAcceptList ?: tokensAcceptList
+        constantTypesClasses = config?.constantTypesClassesAcceptList ?: constantTypesClassesAcceptList
 
 
         Binding binding = new Binding()
@@ -84,7 +88,9 @@ class GafferConfigurator {
                 importsWhitelist: importsList,
                 staticImportsWhitelist: staticImportsList,
                 tokensWhitelist: tokens,
-                constantTypesClassesWhiteList: constantTypesClasses
+                constantTypesClassesWhiteList: constantTypesClasses,
+                starImportsWhitelist: starImportsList,
+                staticStarImportsWhitelist: staticStarImportsList
         )
 
         astCustomizer.addExpressionCheckers(new ScriptExpressionChecker())
