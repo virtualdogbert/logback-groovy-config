@@ -21,6 +21,9 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: ${{ matrix.java }}
+      - name: Set key file
+         run: >
+           echo ${{ secrets.SIGNING_KEY }} > key.txt
       - name: Build with Gradle
         run: >
           ./gradlew publish
@@ -29,4 +32,3 @@ jobs:
           -PuserName=${{ secrets.LIBRARIES_USERNAME }}
           -Ptoken=${{ secrets.LIBRARIES_PUSH_TOKEN }}
           -PsigningPassword=${{ secrets.SIGNING_KEY_PASSWORD }}
-          -PsigningKey=${{ secrets.SIGNING_KEY }}
