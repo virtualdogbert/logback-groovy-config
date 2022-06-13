@@ -23,7 +23,7 @@ jobs:
           java-version: ${{ matrix.java }}
       - name: Set key file
         run: |
-          echo ${{ secrets.SIGNING_KEY }} >> key.txt
+          printf "${{ secrets.SIGNING_KEY }}" >> key.txt
       - name: Build with Gradle
         run: >
           ./gradlew publish
