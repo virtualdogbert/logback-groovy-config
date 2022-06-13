@@ -22,8 +22,8 @@ jobs:
         with:
           java-version: ${{ matrix.java }}
       - name: Set key file
-         run: |
-           echo ${{ secrets.SIGNING_KEY }} >> key.txt
+        run: |
+          echo ${{ secrets.SIGNING_KEY }} >> key.txt
       - name: Build with Gradle
         run: >
           ./gradlew publish
