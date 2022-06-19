@@ -30,4 +30,6 @@ jobs:
           -PuserName=${{ secrets.LIBRARIES_USERNAME }}
           -Ptoken=${{ secrets.LIBRARIES_PUSH_TOKEN }}
           -PsigningPassword=${{ secrets.SIGNING_KEY_PASSWORD }}
+      - name: Remove keyfile
+        run: >
           rm ${GITHUB_WORKSPACE}/key.txt
