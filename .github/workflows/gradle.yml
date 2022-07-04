@@ -23,7 +23,7 @@ jobs:
           java-version: ${{ matrix.java }}
       - name: Build with Gradle
         run: >
-          echo ${{ secrets.SIGNING_KEY }} | base64 -d > ${GITHUB_WORKSPACE}/key.txt
+          echo ${{ secrets.SIGNING_KEY }} > ${GITHUB_WORKSPACE}/key.txt
           ./gradlew publish
           -PlibVersion=${{ github.ref_name }}
           -PlibrariesMavenUrl=${{ secrets.LIBRARIES_MAVEN_URL }}
@@ -31,4 +31,6 @@ jobs:
           -Ptoken=${{ secrets.LIBRARIES_PUSH_TOKEN }}
           -PsigningPassword=${{ secrets.SIGNING_KEY_PASSWORD }}
           -PkeyFilePath=${GITHUB_WORKSPACE}/key.txt
+      - name: Remove keyfile
+        run: >
           rm ${GITHUB_WORKSPACE}/key.txt
