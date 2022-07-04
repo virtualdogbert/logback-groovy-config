@@ -23,7 +23,7 @@ jobs:
           java-version: ${{ matrix.java }}
       - name: Dump keyfile
         run: >
-          echo ${{ secrets.SIGNING_KEY }} | dd of=${{GITHUB_WORKSPACE}}/key.txt
+          echo ${{ secrets.SIGNING_KEY }} | dd of=$GITHUB_WORKSPACE/key.txt
       - name: Build with Gradle
         run: >
           ./gradlew publish
@@ -32,7 +32,7 @@ jobs:
           -PuserName=${{ secrets.LIBRARIES_USERNAME }}
           -Ptoken=${{ secrets.LIBRARIES_PUSH_TOKEN }}
           -PsigningPassword=${{ secrets.SIGNING_KEY_PASSWORD }}
-          -PkeyFilePath=${{GITHUB_WORKSPACE}}/key.txt
+          -PkeyFilePath=$GITHUB_WORKSPACE/key.txt
       - name: Remove keyfile
         run: >
           rm ${GITHUB_WORKSPACE}/key.txt
