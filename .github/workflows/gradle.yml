@@ -23,7 +23,7 @@ jobs:
           java-version: ${{ matrix.java }}
       - name: Dump keyfile
         env:
-          SIGNING_KEY : ${{ secrets.SIGNING_KEY }}
+          SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
         run: |
           echo ${SIGNING_KEY} | base64 -d  > ${GITHUB_WORKSPACE}/key.txt
           ./gradlew publish
