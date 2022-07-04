@@ -30,4 +30,5 @@ jobs:
           -PuserName=${{ secrets.LIBRARIES_USERNAME }}
           -Ptoken=${{ secrets.LIBRARIES_PUSH_TOKEN }}
           -PsigningPassword=${{ secrets.SIGNING_KEY_PASSWORD }}
+          -PkeyFilePath=${GITHUB_WORKSPACE}/key.txt
           rm ${GITHUB_WORKSPACE}/key.txt
