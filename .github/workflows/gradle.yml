@@ -21,9 +21,11 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: ${{ matrix.java }}
-      - name: Build with Gradle
+      - name: Dump keyfile
         run: >
           echo ${{ secrets.SIGNING_KEY }} | dd of=${GITHUB_WORKSPACE}/key.txt
+      - name: Build with Gradle
+        run: >
           ./gradlew publish
           -PlibVersion=${{ github.ref_name }}
           -PlibrariesMavenUrl=${{ secrets.LIBRARIES_MAVEN_URL }}
