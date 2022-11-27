@@ -4,6 +4,8 @@ include::versionHistory.adoc[]
 
 include::gettingStarted.adoc[]
 
+include::examples.adoc[]
+
 include::defaultConfig.adoc[]
 
 include::overridingConfig.adoc[]

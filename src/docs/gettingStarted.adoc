@@ -3,16 +3,15 @@
 1. Add the following dependency to .build.gradle:
 
 ```groovy
-compile 'io.github.virtualdogbert:logback-groovy-config:1.0-RC1'
+implementation 'io.github.virtualdogbert:logback-groovy-config:1.0'
 ```
 
-Eventually the parent Logback Library should add hooks allowing to you specify the `logback.groovy` file just as you have before. Prior to
-that you can use the following to run the DSL on a logback groovy config file:
+Add a `logback-config.groovy` file to your resources(e.g. grails-app/config, src/main/resources) using the Groovy DSL. The file name can be
+changed to anything but `logback.groovy` because logback will throw an error if it find that file currently(this may change in the future).
+To change the file name you can use the system property: `logback.config.file` or the environment variable: `LOGBACK_CONFIG_FILE`
 
-```groovy
-import ch.qos.logback.classic.LogbackDSLInitializer
-LogbackDSLInitializer.init((LoggerContext) LoggerFactory.getILoggerFactory(),  getClass().getClassLoader().getResourceAsStream("logback-config.groovy"))
-```
+You can provide an external config file by setting the VM property `logback.config.external.file`  or the environment property
+`LOGBACK_CONFIG_EXTERNAL_FILE`. The external file if provided will take president over the config in the resource.
 
-Note the file can be called anything but `logback.groovy` and in this case `logback-config.groovy` was chosen. This file needs to be in a
-resource directory to be picked up.
+Depending on the environment external files might make sense, although an alternative is to have environment variables in your internal
+config that can control aspects of your logging.
