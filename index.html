@@ -446,8 +446,14 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#introduction">1. Introduction</a></li>
 <li><a href="#version-history">2. Version History</a></li>
 <li><a href="#getting-started">3. Getting Started</a></li>
-<li><a href="#default-config">4. Default Config</a></li>
-<li><a href="#overriding-default-config">5. Overriding Default Config</a></li>
+<li><a href="#examples">4. Examples</a>
+<ul class="sectlevel3">
+<li><a href="#spring-bootgrails">4.1. Spring Boot/Grails</a></li>
+<li><a href="#micronaut">4.2. Micronaut</a></li>
+</ul>
+</li>
+<li><a href="#default-config">5. Default Config</a></li>
+<li><a href="#overriding-default-config">6. Overriding Default Config</a></li>
 </ul>
 </div>
 </div>
@@ -464,6 +470,9 @@ security via the SecureASTCustomizer.</p>
 library is a more secure manner, your application security is up to you. You use this library at your own risk. If you find any flaws/security
 risks you can log them on the GitHub Issues Page:
 <a href="https://github.com/virtualdogbert/logback-groovy-config/issues" class="bare">https://github.com/virtualdogbert/logback-groovy-config/issues</a></p>
+</div>
+<div class="paragraph">
+<p>This library uses a Java Service Configuator <code>GroovyConfigurator.groovy</code> which is dynamically called by <code>logback-classic</code> on startup.</p>
 </div>
 <div class="paragraph">
 <p>Pull requests are welcome provided you provide any tests demonstrating/testing any new features, and documentation to go along with it.
@@ -497,7 +506,7 @@ provided, that makes sense for all users of the library.</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Initial Release looking for feedback.</p>
+<p>Initial Release.</p>
 </li>
 </ul>
 </div>
@@ -518,27 +527,109 @@ provided, that makes sense for all users of the library.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code data-lang="groovy">compile 'io.github.virtualdogbert:logback-groovy-config:1.0-RC1'</code></pre>
+<pre class="prettyprint highlight"><code data-lang="groovy">implementation 'io.github.virtualdogbert:logback-groovy-config:1.0'</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Eventually the parent Logback Library should add hooks allowing to you specify the <code>logback.groovy</code> file just as you have before. Prior to
-that you can use the following to run the DSL on a logback groovy config file:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="prettyprint highlight"><code data-lang="groovy">import ch.qos.logback.classic.LogbackDSLInitializer
-LogbackDSLInitializer.init((LoggerContext) LoggerFactory.getILoggerFactory(),  getClass().getClassLoader().getResourceAsStream("logback-config.groovy"))</code></pre>
-</div>
+<p>Add a <code>logback-config.groovy</code> file to your resources(e.g. grails-app/config, src/main/resources) using the Groovy DSL. The file name can be
+changed to anything but <code>logback.groovy</code> because logback will throw an error if it find that file currently(this may change in the future).
+To change the file name you can use the system property: <code>logback.config.file</code> or the environment variable: <code>LOGBACK_CONFIG_FILE</code></p>
 </div>
 <div class="paragraph">
-<p>Note the file can be called anything but <code>logback.groovy</code> and in this case <code>logback-config.groovy</code> was chosen. This file needs to be in a
-resource directory to be picked up.</p>
+<p>You can provide an external config file by setting the VM property <code>logback.config.external.file</code>  or the environment property
+<code>LOGBACK_CONFIG_EXTERNAL_FILE</code>. The external file if provided will take president over the config in the resource.</p>
+</div>
+<div class="paragraph">
+<p>Depending on the environment external files might make sense, although an alternative is to have environment variables in your internal
+config that can control aspects of your logging.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="default-config">4. Default Config</h2>
+<h2 id="examples">4. Examples</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Here are some base example for the logback-config.groovy using the Logback Groovy DSL:</p>
+</div>
+<div class="sect3">
+<h4 id="spring-bootgrails">4.1. Spring Boot/Grails</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="groovy">import ch.qos.logback.classic.encoder.PatternLayoutEncoder
+import ch.qos.logback.core.ConsoleAppender
+import ch.qos.logback.core.FileAppender
+import grails.util.BuildSettings
+import org.springframework.boot.logging.logback.ColorConverter
+import org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter
+
+import java.nio.charset.StandardCharsets
+
+import static grails.util.Environment.isDevelopmentMode
+
+conversionRule 'clr', ColorConverter
+conversionRule 'wex', WhitespaceThrowableProxyConverter
+
+// See http://logback.qos.ch/manual/groovy.html for details on configuration
+appender('STDOUT', ConsoleAppender) {
+    encoder(PatternLayoutEncoder) {
+        charset = StandardCharsets.UTF_8
+
+        pattern =
+                '%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} ' + // Date
+                        '%clr(%5p) ' + // Log level
+                        '%clr(---){faint} %clr([%15.15t]){faint} ' + // Thread
+                        '%clr(%-40.40logger{39}){cyan} %clr(:){faint} ' + // Logger
+                        '%m%n%wex' // Message
+    }
+}
+
+def targetDir = BuildSettings.TARGET_DIR
+
+if (isDevelopmentMode() &amp;&amp; targetDir != null) {
+    appender("FULL_STACKTRACE", FileAppender) {
+        file = "${targetDir}/stacktrace.log"
+        append = true
+
+        encoder(PatternLayoutEncoder) {
+            charset = StandardCharsets.UTF_8
+            pattern = "%level %logger - %msg%n"
+        }
+    }
+
+    logger("StackTrace", ERROR, ['FULL_STACKTRACE'], false)
+}
+
+root(INFO, ['STDOUT'])</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="micronaut">4.2. Micronaut</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="groovy">import ch.qos.logback.classic.encoder.PatternLayoutEncoder
+import ch.qos.logback.core.ConsoleAppender
+import ch.qos.logback.core.FileAppender
+import java.nio.charset.StandardCharsets
+
+
+// See http://logback.qos.ch/manual/groovy.html for details on configuration
+appender('STDOUT', ConsoleAppender) {
+    encoder(PatternLayoutEncoder) {
+        charset = StandardCharsets.UTF_8
+
+        pattern = '%cyan(%d{HH:mm:ss.SSS}) %gray([%thread]) %highlight(%-5level) %magenta(%logger{36}) - %msg%n' // Message
+    }
+}
+
+root(INFO, ['STDOUT'])</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="default-config">5. Default Config</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>The following is the default accept lists that are used by SecureASTCustomizer to help add security to the Groovy DSL for Logback.</p>
@@ -696,7 +787,7 @@ class DefaultAcceptLists {
 </div>
 </div>
 <div class="sect1">
-<h2 id="overriding-default-config">5. Overriding Default Config</h2>
+<h2 id="overriding-default-config">6. Overriding Default Config</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>The default config can be overridden by providing a <code>logbackCompiler.groovy</code> file in your <code>resources</code> directory. This makes is so that you can
@@ -1217,8 +1308,8 @@ staticStarImportsAcceptList = [
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 1.0-RC1<br>
-Last updated 2022-06-12 14:42:13 -0400
+Version 1.0<br>
+Last updated 2022-11-27 18:06:28 -0500
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.css">

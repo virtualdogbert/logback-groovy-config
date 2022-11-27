@@ -7,3 +7,4 @@ target
 plugin.xml
 *taskArtifacts*
 .gradle/*
+key.txt
