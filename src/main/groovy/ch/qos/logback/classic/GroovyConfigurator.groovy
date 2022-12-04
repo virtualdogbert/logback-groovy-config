@@ -30,7 +30,7 @@ class GroovyConfigurator extends ContextAwareBase implements Configurator {
      */
     @Override
     ExecutionStatus configure(LoggerContext loggerContext) {
-        String configName = System.getProperty('logback.config.file') ?: System.getenv('LOGBACK_CONFIG_FILE') ?: "logback-config.groovy"
+        String configName = System.getProperty('logback.config.file') ?: System.getenv('LOGBACK_CONFIG_FILE') ?: "logback.groovy"
         String externalConfig = System.getProperty('logback.config.external.file') ?: System.getenv('LOGBACK_CONFIG_EXTERNAL_FILE')
         InputStream inputStream = getClass()?.getClassLoader()?.getResourceAsStream(configName)
 
