@@ -458,19 +458,39 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 </ol>
 </div>
+<div class="paragraph">
+<p>Logback version 1.4.x:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="groovy">implementation 'io.github.virtualdogbert:logback-groovy-config:1.14.0'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Logback version 1.3.x:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="groovy">implementation 'io.github.virtualdogbert:logback-groovy-config:1.13.0'</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Logback version 1.2.x:</p>
+</div>
 <div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code data-lang="groovy">implementation 'io.github.virtualdogbert:logback-groovy-config:1.0'</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Add a <code>logback-config.groovy</code> file to your resources(e.g. grails-app/config, src/main/resources) using the Groovy DSL. The file name can be
-changed to anything but <code>logback.groovy</code> because logback will throw an error if it find that file currently(this may change in the future).
-To change the file name you can use the system property: <code>logback.config.file</code> or the environment variable: <code>LOGBACK_CONFIG_FILE</code></p>
+<p>Add a <code>logback.groovy</code> file to your resources(e.g. grails-app/config, src/main/resources) using the Groovy DSL. The file name was defaulted
+to <code>logback-config.groovy</code> in 1.0 but was rolled back to <code>logback.groovy</code> because newer versions of logback shouldn&#8217;t throw and exception.
+However you can be the config file name to anything you want. To change the file name you can use the system property: <code>logback.config.file</code>
+or the environment variable: <code>LOGBACK_CONFIG_FILE</code></p>
 </div>
 <div class="paragraph">
 <p>You can provide an external config file by setting the VM property <code>logback.config.external.file</code>  or the environment property
-<code>LOGBACK_CONFIG_EXTERNAL_FILE</code>. The external file if provided will take precedence over the config in the resource.</p>
+<code>LOGBACK_CONFIG_EXTERNAL_FILE</code>. The external file if provided will take president over the config in the resource.</p>
 </div>
 <div class="paragraph">
 <p>Depending on the environment external files might make sense, although an alternative is to have environment variables in your internal
@@ -481,8 +501,8 @@ config that can control aspects of your logging.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 1.0<br>
-Last updated 2022-11-28 06:26:03 -0500
+Version 1.13.0<br>
+Last updated 2022-12-04 18:27:06 -0500
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.css">
