@@ -29,7 +29,7 @@ class GroovyConfigurator extends ContextAwareBase implements Configurator {
      * @param loggerContext Logback context to configure.
      */
     @Override
-    void configure(LoggerContext loggerContext) {
+    ExecutionStatus configure(LoggerContext loggerContext) {
         String configName = System.getProperty('logback.config.file') ?: System.getenv('LOGBACK_CONFIG_FILE') ?: "logback-config.groovy"
         String externalConfig = System.getProperty('logback.config.external.file') ?: System.getenv('LOGBACK_CONFIG_EXTERNAL_FILE')
         InputStream inputStream = getClass()?.getClassLoader()?.getResourceAsStream(configName)
@@ -42,7 +42,7 @@ class GroovyConfigurator extends ContextAwareBase implements Configurator {
                     inputStream = file.newInputStream()
                     LogbackDSLInitializer.init(loggerContext, inputStream)
                     loggerContext.putObject('org.springframework.boot.logging.LoggingSystem', new Object())
-                    return
+                    return ExecutionStatus.DO_NOT_INVOKE_NEXT_IF_ANY
                 }
             }catch(Exception e){
                 println "External config for ${externalConfig} failed falling back to internal config"
@@ -56,10 +56,12 @@ class GroovyConfigurator extends ContextAwareBase implements Configurator {
 
             //Added so that Spring Boot/Grails won't override this config with the Spring Boot defaults.
             loggerContext.putObject('org.springframework.boot.logging.LoggingSystem', new Object())
-            return
+            return ExecutionStatus.DO_NOT_INVOKE_NEXT_IF_ANY
         }
 
         println "logback-groovy-config dependency is installed but no groovy logback config was found in resources."
         println "Filenames checked checked: System.getProperty('logback.config.file'), System.getenv('LOGBACK_CONFIG_FILE'), logback-config.groovy."
+
+        return ExecutionStatus.INVOKE_NEXT_IF_ANY
     }
 }

@@ -6,12 +6,13 @@ import ch.qos.logback.classic.encoder.PatternLayoutEncoder
 import ch.qos.logback.core.joran.util.ConfigurationWatchListUtil
 import ch.qos.logback.core.status.OnConsoleStatusListener
 import ch.qos.logback.core.util.ContextUtil
+import ch.qos.logback.core.util.NetworkAddressUtil
 import ch.qos.logback.core.util.OptionHelper
 import org.codehaus.groovy.control.CompilerConfiguration
 import org.codehaus.groovy.control.customizers.ImportCustomizer
 import org.codehaus.groovy.control.customizers.SecureASTCustomizer
 
-import static DefaultAcceptLists.*
+import static ch.qos.logback.classic.gaffer.DefaultAcceptLists.*
 
 /**
  * Logback: the reliable, generic, fast and flexible logging framework.
@@ -76,7 +77,7 @@ class GafferConfigurator {
 
 
         Binding binding = new Binding()
-        binding.setProperty("hostname", ContextUtil.localHostName)
+        binding.setProperty("hostname", NetworkAddressUtil.getLocalHostName())
 
         // Define SecureASTCustomizer to limit allowed
         // language syntax in scripts.
