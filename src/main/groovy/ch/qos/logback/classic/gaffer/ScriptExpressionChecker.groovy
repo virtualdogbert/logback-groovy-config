@@ -69,6 +69,13 @@ class ScriptExpressionChecker implements SecureASTCustomizer.ExpressionChecker {
             'evaluator'
     ]
 
+    private static final List<String> AllowedSystemMethods = [
+            'getenv',
+            'currentTimeMillis',
+            'nanoTime',
+            'lineSeparator'
+    ]
+
 
     private static final List<String> AllowedMatcherMethods = [
             'start'
@@ -87,12 +94,12 @@ class ScriptExpressionChecker implements SecureASTCustomizer.ExpressionChecker {
             MethodCallExpression methodCall = (MethodCallExpression) expression
             ConstantExpression methodExpression = (ConstantExpression) methodCall?.method
 
+
             if (methodExpression && methodCall.objectExpression.type.name == Matcher.class.name &&
                 !AllowedMatcherMethods.contains(methodExpression?.value)) {
 
                 return false
             }
-
 
             if (methodExpression && methodCall.objectExpression.type.name == String.class.name &&
                 !AllowedStringMethods.contains(methodExpression?.value)) {
@@ -102,11 +109,34 @@ class ScriptExpressionChecker implements SecureASTCustomizer.ExpressionChecker {
 
             if (methodExpression && methodCall.objectExpression.type.name == Object.class.name &&
                 !AllowedObjectMethods.contains(methodExpression?.value)) {
+
+                //Some Method calls come wrapped in a objectExpression of type object, but have sub objectExpressions
+                if (methodCall.objectExpression.hasProperty('objectExpression')) {
+                    MethodCallExpression methodCallExpression = (MethodCallExpression) methodCall.objectExpression
+
+                    //Checking the sub object expression for System calls.
+                    if (methodCallExpression.objectExpression.type == System.class.name && !AllowedSystemMethods.contains(methodExpression?.value)) {
+                        return false
+                    }
+
+                    //Checking the subcall for calls from Strings.
+                    if (methodCallExpression.objectExpression.type == String.class.name &&
+                        !AllowedStringMethods.contains(methodExpression?.value)) {
+
+                        return false
+                    }
+
+                    //All other subcalls are deemed ok for now...
+                    return true
+                }
+
+                //The method call from an object does not have a sub call and the method is now allowed
                 return false
             }
 
         }
 
+        //All checks passed the method is allowed
         return true
     }
 }
