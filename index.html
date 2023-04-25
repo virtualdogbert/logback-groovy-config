@@ -502,6 +502,26 @@ provided, that makes sense for all users of the library.</p>
 <div class="ulist">
 <ul>
 <li>
+<p>1.14.1, 1.13.1, 1.12.1</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Found an issue in #4 where the ScriptExpressionChecker was being over zelus on method calls from objects that has sub objectExpressions
+that had types. So I loosened that up, and check for System and String types under the object type, and those have  a restricted set of methods
+that they can call.</p>
+</li>
+<li>
+<p>Upgraded to versions 1.4.6, 1.3.6, and 1.2.12 for logback versions</p>
+</li>
+<li>
+<p>1.2.12 is being release because there are still a lot of popular projects still using the old version. I&#8217;m going to open issues on Projects
+like SpringBoot, Grails, and Micronaut asking why they haven&#8217;t upgraded. With this version the config file will be name logback-config.groovy,
+because at this point logback will error if you have a logback.groovy.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
 <p>1.14.0</p>
 <div class="ulist">
 <ul>
@@ -556,7 +576,7 @@ provided, that makes sense for all users of the library.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code data-lang="groovy">implementation 'io.github.virtualdogbert:logback-groovy-config:1.14.0'</code></pre>
+<pre class="prettyprint highlight"><code data-lang="groovy">implementation 'io.github.virtualdogbert:logback-groovy-config:1.14.1'</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -564,7 +584,7 @@ provided, that makes sense for all users of the library.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code data-lang="groovy">implementation 'io.github.virtualdogbert:logback-groovy-config:1.13.0'</code></pre>
+<pre class="prettyprint highlight"><code data-lang="groovy">implementation 'io.github.virtualdogbert:logback-groovy-config:1.13.1'</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -572,13 +592,13 @@ provided, that makes sense for all users of the library.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code data-lang="groovy">implementation 'io.github.virtualdogbert:logback-groovy-config:1.0'</code></pre>
+<pre class="prettyprint highlight"><code data-lang="groovy">implementation 'io.github.virtualdogbert:logback-groovy-config:1.12.1'</code></pre>
 </div>
 </div>
 <div class="paragraph">
 <p>Add a <code>logback.groovy</code> file to your resources(e.g. grails-app/config, src/main/resources) using the Groovy DSL. The file name was defaulted
-to <code>logback-config.groovy</code> in 1.0 but was rolled back to <code>logback.groovy</code> because newer versions of logback shouldn&#8217;t throw and exception.
-However you can be the config file name to anything you want. To change the file name you can use the system property: <code>logback.config.file</code>
+to <code>logback-config.groovy</code> in 1.12.1 but was rolled back to <code>logback.groovy</code> because newer versions of logback shouldn&#8217;t throw and exception.
+However, you can be the config file name to anything you want. To change the file name you can use the system property: <code>logback.config.file</code>
 or the environment variable: <code>LOGBACK_CONFIG_FILE</code></p>
 </div>
 <div class="paragraph">
@@ -794,6 +814,37 @@ class DefaultAcceptLists {
             'java.lang.System',
             'java.lang.System.getenv',
             'java.lang.System.getProperty',
+            'java.lang.Object.getOrDefault',
+
+            'ch.qos.logback.core.rolling.TriggeringPolicyBase',
+            'ch.qos.logback.core.rolling.helper.Compressor',
+            'ch.qos.logback.core.rolling.helper.PeriodicityType',
+            'ch.qos.logback.core.rolling.helper.TokenConverter',
+            'ch.qos.logback.core.rolling.helper.IntegerTokenConverter',
+            'ch.qos.logback.core.rolling.helper.CompressionMode',
+            'ch.qos.logback.core.rolling.helper.ArchiveRemover',
+            'ch.qos.logback.core.rolling.helper.FileFilterUtil',
+            'ch.qos.logback.core.rolling.helper.RenameUtil',
+            'ch.qos.logback.core.rolling.helper.DateTokenConverter',
+            'ch.qos.logback.core.rolling.helper.FileNamePattern',
+            'ch.qos.logback.core.rolling.helper.RollingCalendar',
+            'ch.qos.logback.core.rolling.helper.FileStoreUtil',
+            'ch.qos.logback.core.rolling.helper.SizeAndTimeBasedArchiveRemover',
+            'ch.qos.logback.core.rolling.helper.TimeBasedArchiveRemover',
+            'ch.qos.logback.core.rolling.helper.MonoTypedConverter',
+            'ch.qos.logback.core.rolling.RollingPolicyBase',
+            'ch.qos.logback.core.rolling.RollingFileAppender',
+            'ch.qos.logback.core.rolling.FixedWindowRollingPolicy',
+            'ch.qos.logback.core.rolling.TimeBasedFileNamingAndTriggeringPolicyBase',
+            'ch.qos.logback.core.rolling.TimeBasedFileNamingAndTriggeringPolicy',
+            'ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy',
+            'ch.qos.logback.core.rolling.RollingPolicy',
+            'ch.qos.logback.core.rolling.TimeBasedRollingPolicy',
+            'ch.qos.logback.core.rolling.DefaultTimeBasedFileNamingAndTriggeringPolicy',
+            'ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy',
+            'ch.qos.logback.core.rolling.RolloverFailure',
+            'ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP',
+            'ch.qos.logback.core.rolling.TriggeringPolicy'
     ]
 
     /**
@@ -1354,8 +1405,8 @@ staticStarImportsAcceptList = [
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 1.13.0<br>
-Last updated 2022-11-28 06:31:56 -0500
+Version 1.14.1<br>
+Last updated 2023-04-02 10:09:48 -0400
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.css">
