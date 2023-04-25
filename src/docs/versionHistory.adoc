@@ -1,11 +1,11 @@
 == Version History
 * 1.14.1, 1.13.1, 1.12.1
-** Found an issue in #4 where the ScriptExpressionChecker was being over zelus on method calls from objects that has sub objectExpressions
+** Found an issue in #4 where the ScriptExpressionChecker was being overzealous on method calls from objects that has sub objectExpressions
 that had types. So I loosened that up, and check for System and String types under the object type, and those have  a restricted set of methods
 that they can call.
 ** Upgraded to versions 1.4.6, 1.3.6, and 1.2.12 for logback versions
-** 1.2.12 is being release because there are still a lot of popular projects still using the old version. I'm going to open issues on Projects
-like SpringBoot, Grails, and Micronaut asking why they haven't upgraded. With this version the config file will be name logback-config.groovy,
+** 1.2.12 is being release because there are still a lot of popular projects still using the old version(updated recently.
+With this version the config file will be name logback-config.groovy,
 because at this point logback will error if you have a logback.groovy.
 * 1.14.0
 ** Upgrading to Logback 1.4.5
