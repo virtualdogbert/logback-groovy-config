@@ -502,6 +502,17 @@ provided, that makes sense for all users of the library.</p>
 <div class="ulist">
 <ul>
 <li>
+<p>1.14.2, 1.13.2, 1.12.2</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Found that the DSL methods are "added" to Object, because the dynamic nature of the runtime DSL. So I added on to the ScriptExpressionChecker
+accounting for that. I also updated the default config explaining the config of the ScriptExpressionChecker asking if there is a missing DSL method to submit a bug report.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
 <p>1.14.1, 1.13.1, 1.12.1</p>
 <div class="ulist">
 <ul>
@@ -780,7 +791,11 @@ class DefaultAcceptLists {
             'java.lang.Object.getProperty',
             'java.lang.System',
             'java.lang.System.getenv',
-            'java.lang.System.getProperty'
+            'java.lang.System.getProperty',
+            'java.lang.Object.getOrDefault',
+            'java.lang.Object.println',
+            'java.lang.Object.rollingPolicy',
+            'java.lang.Object.triggeringPolicy'
     ]
 
     /**
@@ -844,7 +859,8 @@ class DefaultAcceptLists {
             'ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy',
             'ch.qos.logback.core.rolling.RolloverFailure',
             'ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP',
-            'ch.qos.logback.core.rolling.TriggeringPolicy'
+            'ch.qos.logback.core.rolling.TriggeringPolicy',
+            'ch.qos.logback.classic.net.SMTPAppender'
     ]
 
     /**
@@ -880,6 +896,84 @@ class DefaultAcceptLists {
 <p>The Levels for logging are added as the following static imports: OFF, ERROR, WARN, INFO, DEBUG, TRACE, ALL</p>
 </li>
 </ul>
+</div>
+<div class="paragraph">
+<p>There is also a ScriptExpressionChecker That has the following default, which the end user is not allowed to override for security. That
+being said, there maybe DSL elements missing from <code>AllowedObjectMethods</code>, if you find one please submit a <a href="https://github.com/virtualdogbert/logback-groovy-config/issues">bug report</a>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="groovy">private static final List&lt;String&gt; AllowedStringMethods = [
+        'bitwiseNegate', 'capitalize', 'center',
+        'charAt', 'chars', 'codePointAt',
+        'codePointBefore', 'codePointCount', 'codePoints',
+        'compareTo', 'compareToIgnoreCase', 'concat',
+        'contains', 'contains', 'contentEquals',
+        'copyValueOf', 'count', 'decodeBase64',
+        'denormalize', 'eachLine', 'eachMatch',
+        'endsWith', 'equals', 'equalsIgnoreCase',
+        'expand', 'expandLine', 'find',
+        'findAll', 'format', 'getAt',
+        'getChars', 'getChars', 'hashCode',
+        'indexOf', 'intern', 'isAllWhitespace',
+        'isBigDecimal', 'isBigInteger', 'isBlank',
+        'isCase', 'isDouble', 'isEmpty',
+        'isFloat', 'isInteger', 'isLong',
+        'isNumber', 'join', 'lastIndexOf',
+        'leftShift', 'length', 'lines',
+        'matches', 'matches', 'minus',
+        'multiply', 'next', 'normalize',
+        'offsetByCodePoints', 'padLeft', 'padRight',
+        'plus', 'previous', 'readLines',
+        'regionMatches', 'repeat', 'replace',
+        'replaceAll', 'replaceAll', 'replaceFirst',
+        'reverse', 'size', 'split',
+        'splitEachLine', 'startsWith', 'strip',
+        'stripIndent', 'stripLeading', 'stripMargin',
+        'stripTrailing', 'subSequence', 'substring',
+        'toBigDecimal', 'toBigInteger', 'toBoolean',
+        'toCharacter', 'toCharArray', 'toDouble',
+        'toFloat', 'toInteger', 'tokenize',
+        'toList', 'toLong', 'toLowerCase',
+        'toShort', 'toString', 'toUpperCase',
+        'tr', 'trim', 'unexpand',
+        'unexpandLine', 'valueOf', 'start',
+
+
+]
+private static final List&lt;String&gt; AllowedObjectMethods = [
+        'clone', 'equals', 'toString',
+        'any', 'asBoolean', 'collect',
+        'contains', 'count', 'each',
+        'eachWithIndex', 'equals', 'every',
+        'find', 'findIndexOf', 'findIndexValues',
+        'findLastIndexOf', 'findResult', 'flatten',
+        'getAt', 'grep', 'groupBy',
+        'inject', 'is', 'join',
+        'putAt', 'size', 'sum',
+        'with',
+
+
+        'conversionRule', 'appender', 'encoder',
+        'forName', 'isDevelopmentMode', 'logger',
+        'rollingPolicy', 'triggeringPolicy',
+        'root', 'layout', 'appenderRef',
+        'putProperty', 'getProperty', 'filter',
+        'evaluator','println'
+]
+
+private static final List&lt;String&gt; AllowedSystemMethods = [
+        'getenv',
+        'currentTimeMillis',
+        'nanoTime',
+        'lineSeparator'
+]
+
+
+private static final List&lt;String&gt; AllowedMatcherMethods = [
+        'start'
+]</code></pre>
+</div>
 </div>
 </div>
 </div>
@@ -1405,8 +1499,8 @@ staticStarImportsAcceptList = [
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 1.14.1<br>
-Last updated 2023-04-25 07:31:33 -0400
+Version 1.14.2<br>
+Last updated 2023-05-03 12:05:54 -0400
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.css">
