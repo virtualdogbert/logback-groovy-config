@@ -64,9 +64,10 @@ class ScriptExpressionChecker implements SecureASTCustomizer.ExpressionChecker {
 
             'conversionRule', 'appender', 'encoder',
             'forName', 'isDevelopmentMode', 'logger',
+            'rollingPolicy', 'triggeringPolicy',
             'root', 'layout', 'appenderRef',
             'putProperty', 'getProperty', 'filter',
-            'evaluator'
+            'evaluator','println'
     ]
 
     private static final List<String> AllowedSystemMethods = [

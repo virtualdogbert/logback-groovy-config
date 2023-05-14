@@ -76,7 +76,11 @@ class DefaultAcceptLists {
             'java.lang.Object.getProperty',
             'java.lang.System',
             'java.lang.System.getenv',
-            'java.lang.System.getProperty'
+            'java.lang.System.getProperty',
+            'java.lang.Object.getOrDefault',
+            'java.lang.Object.println',
+            'java.lang.Object.rollingPolicy',
+            'java.lang.Object.triggeringPolicy'
     ]
 
     /**
@@ -111,6 +115,7 @@ class DefaultAcceptLists {
             'java.lang.System.getenv',
             'java.lang.System.getProperty',
             'java.lang.Object.getOrDefault',
+            'java.lang.Object.getOrDefault',
 
             'ch.qos.logback.core.rolling.TriggeringPolicyBase',
             'ch.qos.logback.core.rolling.helper.Compressor',
@@ -140,7 +145,8 @@ class DefaultAcceptLists {
             'ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy',
             'ch.qos.logback.core.rolling.RolloverFailure',
             'ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP',
-            'ch.qos.logback.core.rolling.TriggeringPolicy'
+            'ch.qos.logback.core.rolling.TriggeringPolicy',
+            'ch.qos.logback.classic.net.SMTPAppender'
     ]
 
     /**
