@@ -1,4 +1,7 @@
 == Version History
+* 1.14.2, 1.13.2, 1.12.2
+** Found that the DSL methods are "added" to Object, because the dynamic nature of the runtime DSL. So I added on to the ScriptExpressionChecker
+accounting for that. I also updated the default config explaining the config of the ScriptExpressionChecker asking if there is a missing DSL method to submit a bug report.
 * 1.14.1, 1.13.1, 1.12.1
 ** Found an issue in #4 where the ScriptExpressionChecker was being over zelus on method calls from objects that has sub objectExpressions
 that had types. So I loosened that up, and check for System and String types under the object type, and those have  a restricted set of methods
