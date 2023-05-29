@@ -1,4 +1,6 @@
 == Version History
+* 1.14.3, 1.13.3, 1.12.3
+** Adding on to default to make the default a little nicer.
 * 1.14.2, 1.13.2, 1.12.2
 ** Found that the DSL methods are "added" to Object, because the dynamic nature of the runtime DSL. So I added on to the ScriptExpressionChecker
 accounting for that. I also updated the default config explaining the config of the ScriptExpressionChecker asking if there is a missing DSL method to submit a bug report.

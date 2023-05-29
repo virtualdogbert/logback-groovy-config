@@ -4,17 +4,17 @@
 
 Logback version 1.4.x:
 ```groovy
-implementation 'io.github.virtualdogbert:logback-groovy-config:1.14.1'
+implementation 'io.github.virtualdogbert:logback-groovy-config:1.14.3'
 ```
 
 Logback version 1.3.x:
 ```groovy
-implementation 'io.github.virtualdogbert:logback-groovy-config:1.13.1'
+implementation 'io.github.virtualdogbert:logback-groovy-config:1.13.3'
 ```
 
 Logback version 1.2.x:
 ```groovy
-implementation 'io.github.virtualdogbert:logback-groovy-config:1.12.1'
+implementation 'io.github.virtualdogbert:logback-groovy-config:1.12.3'
 ```
 
 Add a `logback.groovy` file to your resources(e.g. grails-app/config, src/main/resources) using the Groovy DSL. The file name was defaulted
