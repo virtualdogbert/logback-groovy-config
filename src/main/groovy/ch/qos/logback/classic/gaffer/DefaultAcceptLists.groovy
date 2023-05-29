@@ -42,7 +42,8 @@ class DefaultAcceptLists {
             Double.TYPE,
             Boolean.TYPE,
             Matcher,
-            LoggerContext
+            LoggerContext,
+            ch.qos.logback.classic.Level
     ]
 
     /**
@@ -59,6 +60,7 @@ class DefaultAcceptLists {
             'java.lang.Object.evaluator',
             'java.lang.Object.logger',
             'java.lang.Object.root',
+            'ch.qos.logback.classic.Level.toLevel',
             'ch.qos.logback.classic.Level',
             'ch.qos.logback.classic.Level.OFF',
             'ch.qos.logback.classic.Level.ERROR',
@@ -116,6 +118,7 @@ class DefaultAcceptLists {
             'java.lang.System.getProperty',
             'java.lang.Object.getOrDefault',
             'java.lang.Object.getOrDefault',
+            'ch.qos.logback.classic.Level.toLevel',
 
             'ch.qos.logback.core.rolling.TriggeringPolicyBase',
             'ch.qos.logback.core.rolling.helper.Compressor',
