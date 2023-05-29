@@ -502,6 +502,16 @@ provided, that makes sense for all users of the library.</p>
 <div class="ulist">
 <ul>
 <li>
+<p>1.14.3, 1.13.3, 1.12.3</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Adding on to default to make the default a little nicer.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
 <p>1.14.2, 1.13.2, 1.12.2</p>
 <div class="ulist">
 <ul>
@@ -587,7 +597,7 @@ because at this point logback will error if you have a logback.groovy.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code data-lang="groovy">implementation 'io.github.virtualdogbert:logback-groovy-config:1.14.1'</code></pre>
+<pre class="prettyprint highlight"><code data-lang="groovy">implementation 'io.github.virtualdogbert:logback-groovy-config:1.14.3'</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -595,7 +605,7 @@ because at this point logback will error if you have a logback.groovy.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code data-lang="groovy">implementation 'io.github.virtualdogbert:logback-groovy-config:1.13.1'</code></pre>
+<pre class="prettyprint highlight"><code data-lang="groovy">implementation 'io.github.virtualdogbert:logback-groovy-config:1.13.3'</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -603,7 +613,7 @@ because at this point logback will error if you have a logback.groovy.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code data-lang="groovy">implementation 'io.github.virtualdogbert:logback-groovy-config:1.12.1'</code></pre>
+<pre class="prettyprint highlight"><code data-lang="groovy">implementation 'io.github.virtualdogbert:logback-groovy-config:1.12.3'</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -724,6 +734,17 @@ import static org.codehaus.groovy.syntax.Types.*
 /**
  * Default Accept Lists for the AST Customizer used to limit what can be done in the Groovy DSL for Logback.
  */
+package ch.qos.logback.classic.gaffer
+
+import ch.qos.logback.classic.LoggerContext
+import ch.qos.logback.core.boolex.Matcher
+import groovy.transform.CompileStatic
+
+import static org.codehaus.groovy.syntax.Types.*
+
+/**
+ * Default Accept Lists for the AST Customizer used to limit what can be done in the Groovy DSL for Logback.
+ */
 @CompileStatic
 class DefaultAcceptLists {
 
@@ -757,7 +778,8 @@ class DefaultAcceptLists {
             Double.TYPE,
             Boolean.TYPE,
             Matcher,
-            LoggerContext
+            LoggerContext,
+            ch.qos.logback.classic.Level
     ]
 
     /**
@@ -774,6 +796,7 @@ class DefaultAcceptLists {
             'java.lang.Object.evaluator',
             'java.lang.Object.logger',
             'java.lang.Object.root',
+            'ch.qos.logback.classic.Level.toLevel',
             'ch.qos.logback.classic.Level',
             'ch.qos.logback.classic.Level.OFF',
             'ch.qos.logback.classic.Level.ERROR',
@@ -830,6 +853,8 @@ class DefaultAcceptLists {
             'java.lang.System.getenv',
             'java.lang.System.getProperty',
             'java.lang.Object.getOrDefault',
+            'java.lang.Object.getOrDefault',
+            'ch.qos.logback.classic.Level.toLevel',
 
             'ch.qos.logback.core.rolling.TriggeringPolicyBase',
             'ch.qos.logback.core.rolling.helper.Compressor',
@@ -1499,8 +1524,8 @@ staticStarImportsAcceptList = [
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 1.14.2<br>
-Last updated 2023-05-03 12:05:54 -0400
+Version 1.14.3<br>
+Last updated 2023-05-21 17:30:48 -0400
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.css">
