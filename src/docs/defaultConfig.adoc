@@ -14,17 +14,6 @@ import static org.codehaus.groovy.syntax.Types.*
 /**
  * Default Accept Lists for the AST Customizer used to limit what can be done in the Groovy DSL for Logback.
  */
-package ch.qos.logback.classic.gaffer
-
-import ch.qos.logback.classic.LoggerContext
-import ch.qos.logback.core.boolex.Matcher
-import groovy.transform.CompileStatic
-
-import static org.codehaus.groovy.syntax.Types.*
-
-/**
- * Default Accept Lists for the AST Customizer used to limit what can be done in the Groovy DSL for Logback.
- */
 @CompileStatic
 class DefaultAcceptLists {
 
@@ -98,7 +87,8 @@ class DefaultAcceptLists {
             'java.lang.Object.getOrDefault',
             'java.lang.Object.println',
             'java.lang.Object.rollingPolicy',
-            'java.lang.Object.triggeringPolicy'
+            'java.lang.Object.triggeringPolicy',
+            'java.lang.Object.statusListener'
     ]
 
     /**
@@ -129,12 +119,16 @@ class DefaultAcceptLists {
             'ch.qos.logback.classic.LoggerContext',
             'ch.qos.logback.core.boolex.Matcher',
             'ch.qos.logback.core.filter.EvaluatorFilter',
+            'ch.qos.logback.classic.filter.ThresholdFilter',
+
             'java.lang.System',
             'java.lang.System.getenv',
             'java.lang.System.getProperty',
             'java.lang.Object.getOrDefault',
             'java.lang.Object.getOrDefault',
             'ch.qos.logback.classic.Level.toLevel',
+
+            'ch.qos.logback.core.status.OnConsoleStatusListener',
 
             'ch.qos.logback.core.rolling.TriggeringPolicyBase',
             'ch.qos.logback.core.rolling.helper.Compressor',
@@ -155,6 +149,7 @@ class DefaultAcceptLists {
             'ch.qos.logback.core.rolling.RollingPolicyBase',
             'ch.qos.logback.core.rolling.RollingFileAppender',
             'ch.qos.logback.core.rolling.FixedWindowRollingPolicy',
+            'ch.qos.logback.core.rolling.TimeBasedRollingPolicy',
             'ch.qos.logback.core.rolling.TimeBasedFileNamingAndTriggeringPolicyBase',
             'ch.qos.logback.core.rolling.TimeBasedFileNamingAndTriggeringPolicy',
             'ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy',
@@ -181,86 +176,5 @@ class DefaultAcceptLists {
             'io.micronaut.context.env.Environment'
     ]
 }
-```
 
-In addition to the default config the default config the SecureASTCustomizer is set so:
-
-* Method definitions are not allowed
-* Package declarations are not allowed
-* Indirect Imports are not allowed
-* The Levels for logging are added as the following static imports: OFF, ERROR, WARN, INFO, DEBUG, TRACE, ALL
-
-There is also a ScriptExpressionChecker That has the following default, which the end user is not allowed to override for security. That
-being said, there maybe DSL elements missing from `AllowedObjectMethods`, if you find one please submit a https://github.com/virtualdogbert/logback-groovy-config/issues[bug report]:
-```groovy
-private static final List<String> AllowedStringMethods = [
-        'bitwiseNegate', 'capitalize', 'center',
-        'charAt', 'chars', 'codePointAt',
-        'codePointBefore', 'codePointCount', 'codePoints',
-        'compareTo', 'compareToIgnoreCase', 'concat',
-        'contains', 'contains', 'contentEquals',
-        'copyValueOf', 'count', 'decodeBase64',
-        'denormalize', 'eachLine', 'eachMatch',
-        'endsWith', 'equals', 'equalsIgnoreCase',
-        'expand', 'expandLine', 'find',
-        'findAll', 'format', 'getAt',
-        'getChars', 'getChars', 'hashCode',
-        'indexOf', 'intern', 'isAllWhitespace',
-        'isBigDecimal', 'isBigInteger', 'isBlank',
-        'isCase', 'isDouble', 'isEmpty',
-        'isFloat', 'isInteger', 'isLong',
-        'isNumber', 'join', 'lastIndexOf',
-        'leftShift', 'length', 'lines',
-        'matches', 'matches', 'minus',
-        'multiply', 'next', 'normalize',
-        'offsetByCodePoints', 'padLeft', 'padRight',
-        'plus', 'previous', 'readLines',
-        'regionMatches', 'repeat', 'replace',
-        'replaceAll', 'replaceAll', 'replaceFirst',
-        'reverse', 'size', 'split',
-        'splitEachLine', 'startsWith', 'strip',
-        'stripIndent', 'stripLeading', 'stripMargin',
-        'stripTrailing', 'subSequence', 'substring',
-        'toBigDecimal', 'toBigInteger', 'toBoolean',
-        'toCharacter', 'toCharArray', 'toDouble',
-        'toFloat', 'toInteger', 'tokenize',
-        'toList', 'toLong', 'toLowerCase',
-        'toShort', 'toString', 'toUpperCase',
-        'tr', 'trim', 'unexpand',
-        'unexpandLine', 'valueOf', 'start',
-
-
-]
-private static final List<String> AllowedObjectMethods = [
-        'clone', 'equals', 'toString',
-        'any', 'asBoolean', 'collect',
-        'contains', 'count', 'each',
-        'eachWithIndex', 'equals', 'every',
-        'find', 'findIndexOf', 'findIndexValues',
-        'findLastIndexOf', 'findResult', 'flatten',
-        'getAt', 'grep', 'groupBy',
-        'inject', 'is', 'join',
-        'putAt', 'size', 'sum',
-        'with',
-
-
-        'conversionRule', 'appender', 'encoder',
-        'forName', 'isDevelopmentMode', 'logger',
-        'rollingPolicy', 'triggeringPolicy',
-        'root', 'layout', 'appenderRef',
-        'putProperty', 'getProperty', 'filter',
-        'evaluator','println'
-]
-
-private static final List<String> AllowedSystemMethods = [
-        'getenv',
-        'currentTimeMillis',
-        'nanoTime',
-        'lineSeparator'
-]
-
-
-private static final List<String> AllowedMatcherMethods = [
-        'start'
-]
 ```

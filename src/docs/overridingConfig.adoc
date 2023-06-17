@@ -1,7 +1,7 @@
 == Overriding Default Config
 
-The default config can be overridden by providing a `logbackCompiler.groovy` file in your `resources` directory. This makes is so that you can
-override the default in your code, but not externally. If you are working where resources could be exposed externally, like in an exploded
+The default config can be added on to by providing a `logbackCompiler.groovy` file in your `resources` directory. This makes it so that you can
+add to the default in your code, but not externally. If you are working where resources could be exposed externally, like in an exploded
 war scenario or something similar, then you will have to secure that directory. The following are the lists from the default config that you
 can override:
 

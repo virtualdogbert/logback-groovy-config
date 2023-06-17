@@ -1,4 +1,6 @@
 == Version History
+* 1.14.4, 1.13.4, 1.12.4
+** Adding missing DSL element, adding some more default imports and making the defaults always apply, and are just added on to, rather than overwritten with the `logbackCompiler.groovy`
 * 1.14.3, 1.13.3, 1.12.3
 ** Adding on to default to make the default a little nicer.
 * 1.14.2, 1.13.2, 1.12.2

@@ -8,9 +8,14 @@ library is a more secure manner, your application security is up to you. You use
 risks you can log them on the GitHub Issues Page:
 https://github.com/virtualdogbert/logback-groovy-config/issues
 
+It is suggested that you use or make a sample app when submitting an issue. A shell app is provided under the examples directory.
+You can alter this adding your logback groovy config, and dependencies relevant to the issue.
+
 This library uses a Java Service Configuator `GroovyConfigurator.groovy` which is dynamically called by `logback-classic` on startup.
 
 Pull requests are welcome provided you provide any tests demonstrating/testing any new features, and documentation to go along with it.
+
+
 The app does have default security configuration, which can be overridden see the section:
 
 <<overridingConfig#,Overriding Default Config>>
