@@ -82,7 +82,8 @@ class DefaultAcceptLists {
             'java.lang.Object.getOrDefault',
             'java.lang.Object.println',
             'java.lang.Object.rollingPolicy',
-            'java.lang.Object.triggeringPolicy'
+            'java.lang.Object.triggeringPolicy',
+            'java.lang.Object.statusListener'
     ]
 
     /**
@@ -113,12 +114,16 @@ class DefaultAcceptLists {
             'ch.qos.logback.classic.LoggerContext',
             'ch.qos.logback.core.boolex.Matcher',
             'ch.qos.logback.core.filter.EvaluatorFilter',
+            'ch.qos.logback.classic.filter.ThresholdFilter',
+
             'java.lang.System',
             'java.lang.System.getenv',
             'java.lang.System.getProperty',
             'java.lang.Object.getOrDefault',
             'java.lang.Object.getOrDefault',
             'ch.qos.logback.classic.Level.toLevel',
+
+            'ch.qos.logback.core.status.OnConsoleStatusListener',
 
             'ch.qos.logback.core.rolling.TriggeringPolicyBase',
             'ch.qos.logback.core.rolling.helper.Compressor',
@@ -139,6 +144,7 @@ class DefaultAcceptLists {
             'ch.qos.logback.core.rolling.RollingPolicyBase',
             'ch.qos.logback.core.rolling.RollingFileAppender',
             'ch.qos.logback.core.rolling.FixedWindowRollingPolicy',
+            'ch.qos.logback.core.rolling.TimeBasedRollingPolicy',
             'ch.qos.logback.core.rolling.TimeBasedFileNamingAndTriggeringPolicyBase',
             'ch.qos.logback.core.rolling.TimeBasedFileNamingAndTriggeringPolicy',
             'ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy',
