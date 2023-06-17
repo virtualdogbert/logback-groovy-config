@@ -52,12 +52,12 @@ class GafferConfigurator {
 
     void run(String dslText) {
         ConfigObject config
-        List<String> importsList
-        List<String> staticImportsList
-        List<String> starImportsList
-        List<String> staticStarImportsList
-        List<String> tokens
-        List<String> constantTypesClasses
+        Set<String> importsList = [] as Set
+        Set<String> staticImportsList = [] as Set
+        Set<String> starImportsList = [] as Set
+        Set<String> staticStarImportsList = [] as Set
+        Set<String> tokens = [] as Set
+        Set<String> constantTypesClasses = [] as Set
 
         InputStream inputStream = getClass().getClassLoader().getResourceAsStream("logbackCompiler.groovy")
 
@@ -66,13 +66,19 @@ class GafferConfigurator {
             config = configSlurper.parse(inputStream.text)
         }
 
+        importsList.addAll(importsAcceptList)
+        staticImportsList.addAll(staticImportsAcceptList)
+        starImportsList.addAll(starImportsAcceptList)
+        staticStarImportsList.addAll(staticStarImportsAcceptList)
+        tokens.addAll(tokensAcceptList)
+        constantTypesClasses.addAll(constantTypesClassesAcceptList)
 
-        importsList = config?.importsAcceptList ?: importsAcceptList
-        staticImportsList = config?.staticImportsAcceptList ?: staticImportsAcceptList
-        starImportsList = config?.starImportsAcceptList ?: starImportsAcceptList
-        staticStarImportsList = config?.staticStarImportsAcceptList ?: staticStarImportsAcceptList
-        tokens = config?.tokensAcceptList ?: tokensAcceptList
-        constantTypesClasses = config?.constantTypesClassesAcceptList ?: constantTypesClassesAcceptList
+        importsList.addAll(config?.importsAcceptList ?: [])
+        staticImportsList.addAll(config?.staticImportsAcceptList ?: [])
+        starImportsList.addAll(config?.starImportsAcceptList ?: [])
+        staticStarImportsList.addAll(config?.staticStarImportsAcceptList ?: [])
+        tokens.addAll(config?.tokensAcceptList ?: [])
+        constantTypesClasses.addAll(config?.constantTypesClassesAcceptList ?: [])
 
 
         Binding binding = new Binding()
@@ -85,12 +91,12 @@ class GafferConfigurator {
                 closuresAllowed: true,
                 packageAllowed: false,
                 indirectImportCheckEnabled: true,
-                importsWhitelist: importsList,
-                staticImportsWhitelist: staticImportsList,
-                tokensWhitelist: tokens,
-                constantTypesClassesWhiteList: constantTypesClasses,
-                starImportsWhitelist: starImportsList,
-                staticStarImportsWhitelist: staticStarImportsList
+                importsWhitelist: importsList.toList(),
+                staticImportsWhitelist: staticImportsList.toList(),
+                tokensWhitelist: tokens.toList(),
+                constantTypesClassesWhiteList: constantTypesClasses.toList(),
+                starImportsWhitelist: starImportsList.toList(),
+                staticStarImportsWhitelist: staticStarImportsList.toList()
         )
 
         astCustomizer.addExpressionCheckers(new ScriptExpressionChecker())
