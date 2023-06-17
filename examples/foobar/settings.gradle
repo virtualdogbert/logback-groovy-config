@@ -1,0 +1,13 @@
+
+pluginManagement {
+    repositories {
+        mavenLocal()
+        maven { url "https://repo.grails.org/grails/core/" }
+        gradlePluginPortal()
+    }
+    plugins {
+        id "org.grails.grails-web" version "${grailsGradlePluginVersion}"
+        id "org.grails.grails-gsp" version "${grailsGradlePluginVersion}"
+    }
+}
+rootProject.name="foobar"

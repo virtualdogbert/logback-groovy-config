@@ -1,0 +1,96 @@
+plugins {
+    id "groovy" 
+    id "org.grails.grails-gsp" 
+    id "org.grails.grails-web" 
+    id "com.github.erdi.webdriver-binaries" version "3.0"
+    id "war" 
+    id "idea" 
+    id "com.bertramlabs.asset-pipeline" 
+    id "application" 
+    id "eclipse" 
+}
+
+version = "0.1"
+group = "foobar"
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven { url "https://repo.grails.org/grails/core/" }
+}
+
+configurations {
+    all {
+        resolutionStrategy.force 'org.codehaus.groovy:groovy-xml:3.0.13'
+    }
+}
+
+dependencies {
+    // TODO add any depdencies that you are using that may conflict with the logback groovy config.
+    implementation("io.github.virtualdogbert:logback-groovy-config:1.12.4") // TODO Replace with the version of the logback config you are using
+    implementation("org.grails:grails-core")
+    implementation("org.grails:grails-logging")
+    implementation("org.grails:grails-plugin-databinding")
+    implementation("org.grails:grails-plugin-i18n")
+    implementation("org.grails:grails-plugin-interceptors")
+    implementation("org.grails:grails-plugin-rest")
+    implementation("org.grails:grails-plugin-services")
+    implementation("org.grails:grails-plugin-url-mappings")
+    implementation("org.grails:grails-web-boot")
+    implementation("org.grails.plugins:gsp")
+    implementation("org.grails.plugins:hibernate5")
+    implementation("org.hibernate:hibernate-core:5.6.15.Final")
+    implementation("org.springframework.boot:spring-boot-autoconfigure")
+    implementation("org.springframework.boot:spring-boot-starter")
+    implementation("org.springframework.boot:spring-boot-starter-actuator")
+    implementation("org.springframework.boot:spring-boot-starter-logging")
+    implementation("org.springframework.boot:spring-boot-starter-tomcat")
+    implementation("org.springframework.boot:spring-boot-starter-validation")
+    compileOnly("io.micronaut:micronaut-inject-groovy")
+    console("org.grails:grails-console")
+    runtimeOnly("com.bertramlabs.plugins:asset-pipeline-grails:3.4.7")
+    runtimeOnly("com.h2database:h2")
+    runtimeOnly("javax.xml.bind:jaxb-api:2.3.1")
+    runtimeOnly("org.apache.tomcat:tomcat-jdbc")
+    runtimeOnly("org.glassfish.web:el-impl:2.2.1-b05")
+    testImplementation("io.micronaut:micronaut-inject-groovy")
+    testImplementation("org.grails:grails-gorm-testing-support")
+    testImplementation("org.grails:grails-web-testing-support")
+    testImplementation("org.grails.plugins:geb")
+    testImplementation("org.mockito:mockito-core")
+    testImplementation("org.seleniumhq.selenium:selenium-api:4.9.1")
+    testImplementation("org.seleniumhq.selenium:selenium-remote-driver:4.9.1")
+    testImplementation("org.seleniumhq.selenium:selenium-support:4.9.1")
+    testImplementation("org.spockframework:spock-core")
+    testRuntimeOnly("org.seleniumhq.selenium:selenium-chrome-driver:4.9.1")
+    testRuntimeOnly("org.seleniumhq.selenium:selenium-firefox-driver:4.9.1")
+    testImplementation("io.micronaut:micronaut-http-client")
+
+}
+
+application {
+    mainClass.set("foobar.Application")
+}
+
+java {
+    sourceCompatibility = JavaVersion.toVersion("11")
+}
+
+tasks.withType(Test) {
+    useJUnitPlatform()
+    systemProperty "geb.env", System.getProperty('geb.env')
+    systemProperty "geb.build.reportsDir", reporting.file("geb/integrationTest")
+    systemProperty 'webdriver.chrome.driver', "${System.getenv('CHROMEWEBDRIVER')}/chromedriver"
+    systemProperty 'webdriver.gecko.driver', "${System.getenv('GECKOWEBDRIVER')}/geckodriver"
+}
+
+webdriverBinaries {
+    chromedriver '2.32'
+    geckodriver '0.19.0'
+    iedriverserver '3.8.0'
+    edgedriver '86.0.601.0'
+}
+assets {
+    minifyJs = true
+    minifyCss = true
+}
