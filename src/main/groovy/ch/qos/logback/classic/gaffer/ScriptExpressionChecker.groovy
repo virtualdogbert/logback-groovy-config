@@ -78,7 +78,11 @@ class ScriptExpressionChecker implements SecureASTCustomizer.ExpressionChecker {
             'filter',
             'evaluator',
             'println',
-            'statusListener'
+            'statusListener',
+
+            //logshash encoder methods:
+            'jsonGeneratorDecorator',
+            'fieldNames'
     ]
 
     private static final List<String> AllowedSystemMethods = [

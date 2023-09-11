@@ -60,6 +60,7 @@ class DefaultAcceptLists {
             'java.lang.Object.evaluator',
             'java.lang.Object.logger',
             'java.lang.Object.root',
+            'java.lang.Object.fieldNames',
             'ch.qos.logback.classic.Level.toLevel',
             'ch.qos.logback.classic.Level',
             'ch.qos.logback.classic.Level.OFF',
@@ -155,7 +156,10 @@ class DefaultAcceptLists {
             'ch.qos.logback.core.rolling.RolloverFailure',
             'ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP',
             'ch.qos.logback.core.rolling.TriggeringPolicy',
-            'ch.qos.logback.classic.net.SMTPAppender'
+            'ch.qos.logback.classic.net.SMTPAppender',
+
+            'net.logstash.logback.encoder.LogstashEncoder',
+            'net.logstash.logback.fieldnames.LogstashFieldNames'
     ]
 
     /**
