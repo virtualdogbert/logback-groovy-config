@@ -60,6 +60,6 @@ class GroovyConfigurator extends ContextAwareBase implements Configurator {
         }
 
         println "logback-groovy-config dependency is installed but no groovy logback config was found in resources."
-        println "Filenames checked checked: System.getProperty('logback.config.file'), System.getenv('LOGBACK_CONFIG_FILE'), logback-config.groovy."
+        println "Filenames checked: System.getProperty('logback.config.file'), System.getenv('LOGBACK_CONFIG_FILE'), logback-config.groovy."
     }
 }
