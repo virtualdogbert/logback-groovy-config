@@ -500,6 +500,17 @@ provided, that makes sense for all users of the library.</p>
 <div class="paragraph">
 <p>These defaults limit what can be done in the DSL, in terms of imports and method calls.</p>
 </div>
+<div class="paragraph">
+<p>The overrides do not provide for overriding the <code>ScriptExpressionChecker</code> this checker, checks for methods that are allowed by the DSL
+and are part of the over all security. If you find that a DSL method is missing, or if an extension library like the logstash-logback-encoder
+adds DSL methods that are not allowed you can open an issue on GitHub:
+<a href="https://github.com/virtualdogbert/logback-groovy-config/issues" class="bare">https://github.com/virtualdogbert/logback-groovy-config/issues</a></p>
+</div>
+<div class="paragraph">
+<p>Please be sure to include sample configuration showing all the DSL methods you used, preferably is a sample app. If the DSL method comes
+from an Opensource extension please provide a link to the project. Additions to the DSL allowed methods will be handled on a case by case
+basis, at my description, and the documentation will be updated noting the additions in the version history.</p>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -507,6 +518,16 @@ provided, that makes sense for all users of the library.</p>
 <div class="sectionbody">
 <div class="ulist">
 <ul>
+<li>
+<p>1.14.5, 1.13.5, 1.12.5</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Adding <code>jsonGeneratorDecorator</code> and <code>fieldNames</code> as accepted DSL methods for use with the logstash-logback-encoder.</p>
+</li>
+</ul>
+</div>
+</li>
 <li>
 <p>1.14.4, 1.13.4, 1.12.4</p>
 <div class="ulist">
@@ -613,7 +634,7 @@ because at this point logback will error if you have a logback.groovy.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code data-lang="groovy">implementation 'io.github.virtualdogbert:logback-groovy-config:1.14.4'</code></pre>
+<pre class="prettyprint highlight"><code data-lang="groovy">implementation 'io.github.virtualdogbert:logback-groovy-config:1.14.5'</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -621,7 +642,7 @@ because at this point logback will error if you have a logback.groovy.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code data-lang="groovy">implementation 'io.github.virtualdogbert:logback-groovy-config:1.13.4'</code></pre>
+<pre class="prettyprint highlight"><code data-lang="groovy">implementation 'io.github.virtualdogbert:logback-groovy-config:1.13.5'</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -629,7 +650,7 @@ because at this point logback will error if you have a logback.groovy.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code data-lang="groovy">implementation 'io.github.virtualdogbert:logback-groovy-config:1.12.4'</code></pre>
+<pre class="prettyprint highlight"><code data-lang="groovy">implementation 'io.github.virtualdogbert:logback-groovy-config:1.12.5'</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1438,8 +1459,8 @@ staticStarImportsAcceptList = [
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 1.14.4<br>
-Last updated 2023-06-15 07:04:32 -0400
+Version 1.14.5<br>
+Last updated 2023-06-18 10:39:24 -0400
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.css">
