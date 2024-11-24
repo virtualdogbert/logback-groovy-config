@@ -51,7 +51,7 @@ class GafferConfigurator {
     }
 
     void run(String dslText) {
-        ConfigObject config
+        ConfigObject config = null
         Set<String> importsList = [] as Set
         Set<String> staticImportsList = [] as Set
         Set<String> starImportsList = [] as Set
@@ -63,6 +63,9 @@ class GafferConfigurator {
 
         if (inputStream) {
             ConfigSlurper configSlurper = new ConfigSlurper()
+            // In gradle's test compile phases, make sure that the Script class that logbackCompiler.groovy implicitly
+            // extends is the same Script class that ConfigSlurper can match with the parameter for its parse() method.
+            configSlurper.classLoader = new GroovyClassLoader(configSlurper.class.classLoader)
             config = configSlurper.parse(inputStream.text)
         }
 

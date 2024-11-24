@@ -31,13 +31,15 @@ dependencies {
     testImplementation 'ch.qos.logback:logback-core:1.2.10'
     testImplementation 'ch.qos.logback:logback-classic:1.2.10'
 
+    // This dependency is required by ConfigurationDelegateTest.appenderSMTP().
+    testImplementation 'com.sun.mail:javax.mail:1.6.2'
+
     // This dependency is exported to consumers, that is to say found on their compile classpath.
     api 'org.apache.commons:commons-math3:3.6.1'
 }
 
-tasks.named('test') {
-    // Use JUnit Platform for unit tests.
-    useJUnitPlatform()
+test {
+    useJUnit()  // Use JUnit 4 for unit tests.
 }
 
 

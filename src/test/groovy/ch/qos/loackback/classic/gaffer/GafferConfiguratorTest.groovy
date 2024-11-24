@@ -30,6 +30,8 @@ import org.junit.Ignore
 import org.junit.Test
 
 import static junit.framework.Assert.*
+import static org.junit.Assert.assertNotEquals
+import static org.junit.Assert.assertNotNull
 import static org.junit.Assert.assertTrue
 /**
  * @author Ceki G&uuml;c&uuml;
@@ -192,5 +194,52 @@ class GafferConfiguratorTest {
             configurator.run file.text
         }
         assertEquals message, "ch.qos.logback.core.ConsoleAppender does not implement ch.qos.logback.core.spi.AppenderAttachable."
+    }
+
+    @Test
+    void withDifferentContextClassLoader() {
+
+        // Given that there is a logbackCompiler.groovy resource, which configurator will use ConfigSlurper to load,
+        InputStream inputStream = configurator.class.classLoader.getResourceAsStream("logbackCompiler.groovy")
+        assertNotNull(inputStream)
+
+        // logbackCompiler.groovy implicitly extends groovy.lang.Script.
+        assert Script.isAssignableFrom(new GroovyClassLoader().parseClass(inputStream.text))
+
+        // Normally the currentThread()'s contextClassLoader has the same Script class that ConfigSlurper has
+        // in its parse(Script) parameter, so it is able to find that method.
+        Thread ct = Thread.currentThread()
+        URLClassLoader originalCL = (URLClassLoader) ct.contextClassLoader
+        String gls = 'groovy.lang.Script'
+        Class configSlurperScriptClass = ConfigSlurper.classLoader.loadClass(gls)
+        assertEquals(originalCL.loadClass(gls), configSlurperScriptClass)
+
+        // For that matter, those two ClassLoaders are the same (in this test, at least).
+        assertEquals(originalCL, ConfigSlurper.classLoader)
+
+        // However, if the currentThread()'s contextClassLoader is changed, so that no longer holds true
+        // (as happens in gradle when compiling test classes for a certain Grails project with an AST that
+        // triggers an init of a class with a static LOG property that triggers the configuration of logback),
+        ClassLoader otherCL = new URLClassLoader(originalCL.URLs, (ClassLoader) null)
+        assertNotEquals(otherCL.loadClass(gls), configSlurperScriptClass)
+        ct.contextClassLoader = otherCL
+
+        try {
+            // when the configurator is run with a logbackCompiler.groovy resource in the environment,
+            configurator.run "foo = 42"
+
+            // then the following Exception is no longer thrown (although JUnit 4 does not have an assert for this):
+            // groovy.lang.MissingMethodException: No signature of method: groovy.util.ConfigSlurper.parse() is applicable for argument types: (Script_eaf6d1dbdc2100d09c319091a0213ade) values: [Script_eaf6d1dbdc2100d09c319091a0213ade@1af7f54a]
+            // Possible solutions: parse(groovy.lang.Script), parse(java.lang.Class), parse(java.lang.String), parse(java.net.URL), parse(java.util.Properties), parse(groovy.lang.Script, java.net.URL)
+            // ...
+            //	at groovy.util.ConfigSlurper.parse(ConfigSlurper.groovy:153)
+            // ...
+            //	at groovy.util.ConfigSlurper.parse(ConfigSlurper.groovy:144)
+            // ...
+            //	at ch.qos.logback.classic.gaffer.GafferConfigurator.run(GafferConfigurator.groovy:66)
+            // ...
+        } finally {
+            ct.contextClassLoader = originalCL
+        }
     }
 }
